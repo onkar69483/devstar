@@ -1,96 +1,105 @@
 <script>
-    import Modal from './Modal.svelte';
-  
     let hasVoted = false;
     let selectedOption = '';
     let message = '';
     let showModal = false;
   
     function handleVote() {
-        if (hasVoted) {
-            message = 'You have already voted';
+      if (hasVoted) {
+        message = 'You have already voted';
+      } else {
+        if (selectedOption) {
+          hasVoted = true;
+          message = 'Vote successful. Thank you for participating in this poll. Your vote has been counted.';
+          showModal = true;
         } else {
-            if (selectedOption) {
-                hasVoted = true;
-                message = 'Vote successful. Thank you for participating in this poll. Your vote has been counted.';
-                showModal = true;
-            } else {
-                alert('Please select an option before voting.');
-            }
+          alert('Please select an option before voting.');
         }
+      }
     }
   
     function handleOptionChange(option) {
-        if (!hasVoted) {
-            selectedOption = option;
-        }
+      if (!hasVoted) {
+        selectedOption = option;
+      }
     }
   
     function closeModal() {
-        showModal = false;
+      showModal = false;
     }
   
     function showResults() {
-        alert('Showing results...');
+      alert(`Sharing poll`);
     }
   
     function share(platform) {
-        alert(`Sharing poll on ${platform}...`);
+      alert(`Sharing poll on ${platform}...`);
     }
   </script>
   
   <div class="outer">
     <div class="inner">
-        <h2>Question</h2>
-        <div class="choose">
-            <div class="options">
-                <input type="radio" name="answer" id="a" on:change={() => handleOptionChange('a')} />
-                <label for="a">Quiz option 1</label>
-            </div>
-            <div class="options">
-                <input type="radio" name="answer" id="b" on:change={() => handleOptionChange('b')} />
-                <label for="b">Quiz option 2</label>
-            </div>
-            <div class="options">
-                <input type="radio" name="answer" id="c" on:change={() => handleOptionChange('c')} />
-                <label for="c">Quiz option 3</label>
-            </div>
-            <div class="options">
-                <input type="radio" name="answer" id="d" on:change={() => handleOptionChange('d')} />
-                <label for="d">Quiz option 4</label>
-            </div>
+      <h2>Question</h2>
+      <div class="choose">
+        <div class="options">
+          <input type="radio" name="answer" id="a" on:change={() => handleOptionChange('a')} />
+          <label for="a">Quiz option 1</label>
         </div>
-        <div class="already-voted {message && message !== 'Vote successful. Thank you for participating in this poll. Your vote has been counted.' ? 'show' : ''}">{message && message !== 'Vote successful. Thank you for participating in this poll. Your vote has been counted.' ? message : ''}</div>
-        <div class="button-container">
-            <button class="vote-button" on:click={handleVote}>Vote</button>
-            <button class="results-button" on:click={showResults}>Show Results</button>
+        <div class="options">
+          <input type="radio" name="answer" id="b" on:change={() => handleOptionChange('b')} />
+          <label for="b">Quiz option 2</label>
         </div>
+        <div class="options">
+          <input type="radio" name="answer" id="c" on:change={() => handleOptionChange('c')} />
+          <label for="c">Quiz option 3</label>
+        </div>
+        <div class="options">
+          <input type="radio" name="answer" id="d" on:change={() => handleOptionChange('d')} />
+          <label for="d">Quiz option 4</label>
+        </div>
+      </div>
+      <div class="already-voted {message && message !== 'Vote successful. Thank you for participating in this poll. Your vote has been counted.' ? 'show' : ''}">
+        {message && message !== 'Vote successful. Thank you for participating in this poll. Your vote has been counted.' ? message : ''}
+      </div>
+      <div class="button-container">
+        <button class="vote-button" on:click={handleVote}>Vote</button>
+        <button class="results-button" on:click={showResults}>Show Results</button>
+      </div>
     </div>
   </div>
   
   <div class="outer">
     <div class="inner">
-        <h2>Share this poll</h2>
-        <div class="button-container">
-            <a href="#" class="share-icon" on:click={() => share('Facebook')}>
-                <img src="src/images/facebook-icon.png" alt="Share on Facebook">
-            </a>
-            <a href="#" class="share-icon" on:click={() => share('Twitter')}>
-                <img src="src/images/twitter-icon.png" alt="Share on Twitter">
-            </a>
-            <a href="#" class="share-icon" on:click={() => share('Email')}>
-                <img src="src/images/email-icon.png" alt="Share via Email">
-            </a>
-            <span class="share-text">Share this link: <a href="#">https://example.com/poll</a></span>
-        </div>
+      <h2>Share this poll</h2>
+      <div class="button-container">
+        <a href="#" class="share-icon" on:click={() => share('Facebook')}>
+          <img src="src/images/facebook-icon.png" alt="Share on Facebook">
+        </a>
+        <a href="#" class="share-icon" on:click={() => share('Twitter')}>
+          <img src="src/images/x-icon.png" alt="Share on Twitter">
+        </a>
+        <a href="#" class="share-icon" on:click={() => share('Email')}>
+          <img src="src/images/email-icon.png" alt="Share via Email">
+        </a>
+        <span class="share-text">Share this link: <a href="#">https://example.com/poll</a></span>
+      </div>
     </div>
   </div>
   
   {#if showModal}
-    <Modal message={message} close={closeModal} showResults={showResults} share={share} />
+    <div class="modal">
+      <div class="modal-content">
+        <p>{message}</p>
+        <div class="button-container">
+          <button class="modal-button" on:click={showResults}>View Results</button>
+          <button class="modal-button" on:click={() => share('platform')}>Share</button>
+          <button class="modal-button" on:click={closeModal}>Close</button>
+        </div>
+      </div>
+    </div>
   {/if}
   
-  <style>
+<style>
     * {
         margin: 0;
         padding: 0;
@@ -180,5 +189,36 @@
     .already-voted.show {
         display: block;
     }
-  </style>
-  
+    .modal {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+    .modal-content {
+        background-color: white;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        text-align: center;
+    }
+    .modal-button {
+        margin-top: 10px;
+        padding: 10px 20px;
+        background-color: grey;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .button-container {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+    }
+</style>
