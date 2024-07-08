@@ -1,6 +1,7 @@
 {
     "name": "Online Poll Tool",
-    "description": "Poll Creator is a user-friendly tool designed to make creating, sharing, and analyzing polls easy and efficient. ",
+    
+    "description": "The Online Poll Tool simplifies the creation and management of polls, enabling users to gather feedback and insights effortlessly. It offers customizable options for poll types, answer options, and result analysis, ensuring a user-friendly experience for both creators and respondents.",
     "contributors": [
       {
         "name": "Onkar Mendhapurkar",
