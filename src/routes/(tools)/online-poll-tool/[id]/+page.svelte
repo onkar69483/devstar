@@ -125,9 +125,6 @@
                         </div>
                     {/each}
                 </div>
-                <div class="already-voted {message && message !== 'Vote successful. Thank you for participating in this poll. Your vote has been counted.' ? 'show' : ''}">
-                    {message && message !== 'Vote successful. Thank you for participating in this poll. Your vote has been counted.' ? message : ''}
-                </div>
                 <div class="button-container">
                     <button class="vote-button" on:click={handleVote}>Vote</button>
                     <button class="results-button" on:click={showResults}>Show Results</button>
@@ -139,13 +136,14 @@
             <div class="inner">
                 <h2>Share this poll</h2>
                 <div class="share-box">
-                    <span class="share-text">http://localhost:5173/online-poll-tool/{poll.id}</span>
                     <button class="copy-button" on:click={copyLink}>
                         <CopyIcon />
                     </button>
+                    <span class="share-text">http://localhost:5173/online-poll-tool/{poll.id}</span>
                 </div>
             </div>
         </div>
+
 
         {#if showModal}
             <div class="modal">
@@ -169,7 +167,6 @@
         </div>
     {/if}
 {/if}
-
   <style>
     * {
       margin: 0;
@@ -228,20 +225,23 @@
       font-weight: 500;
     }
     .share-box {
-      display: flex;
-      align-items: center;
-      background-color: rgba(62, 63, 65, 0.801);
-      padding: 10px;
-      border: 1px solid rgb(56, 124, 228);
-      border-radius: 5px;
-      margin-top: 10px;
-      justify-content: space-between;
+        display: flex;
+        align-items: center;
+        background-color: rgba(62, 63, 65, 0.801);
+        padding: 10px;
+        border: 1px solid rgb(56, 124, 228);
+        border-radius: 5px;
+        margin-top: 10px;
+        justify-content: space-between;
     }
+
     .share-text {
-      font-size: 14px;
-      color: rgb(209, 213, 219);
-      margin-right: 10px;
+        font-size: 14px;
+        color: rgb(209, 213, 219);
+        margin-left: 10px; /* Adjust margin for better alignment */
+        flex-grow: 1; /* Ensure the text expands to fill the available space */
     }
+
     .copy-button {
         background-color: transparent;
         border: 1px solid rgb(92, 92, 92);
@@ -251,7 +251,15 @@
         cursor: pointer;
         display: flex;
         align-items: center;
-        }
+    }
+
+    .copy-button:hover {
+        background-color: rgba(255, 255, 255, 0.1); /* Add a subtle hover effect */
+    }
+
+    .copy-button:focus {
+        outline: none; /* Remove default focus outline */
+    }
     .already-voted {
       margin-top: 15px;
       color: rgb(228, 9, 9);
@@ -276,20 +284,23 @@
       background-color: rgba(0, 0, 0, 0.5);
     }
     .modal-content {
-      background-color: white;
-      padding: 20px;
-      border-radius: 5px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-      text-align: center;
+        background-color: white;
+        padding: 24px; /* Adjust padding for better visibility */
+        border-radius: 8px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        text-align: center;
     }
+
     .modal-button {
-      margin-top: 10px;
-      padding: 10px 20px;
-      background-color: grey;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
+        margin-top: 10px;
+        padding: 12px 24px; /* Adjust button padding for better clickability */
+        background-color: rgb(56, 124, 228);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
     }
     .button-container {
       display: flex;
